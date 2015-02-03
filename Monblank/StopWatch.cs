@@ -18,6 +18,7 @@
     /// Note. This class is NOT thread-safe!
     /// However, most likely you will be using it as local scope variable in methods.
     /// </summary>
+    [Serializable]
     public class StopWatch
     {
         /// <summary>
@@ -30,7 +31,7 @@
             {
                 if (State == StopWatchStatus.RUNNING)
                 {
-                    return Utils.GetTimestampInMilliseconds() - StartTime;
+                    return Utils.GetNowUnixTimestamp() - StartTime;
                 }
                 return _elapsedTime;
             }
@@ -56,12 +57,12 @@
         /// Starts timer if it wasn't started yet.
         /// </summary>
         /// <returns>Started timer.</returns>
-        public StopWatch Start()
+        public virtual StopWatch Start()
         {
             if (State == StopWatchStatus.NOT_STARTED)
             {
                 State = StopWatchStatus.RUNNING;
-                this.StartTime = Utils.GetTimestampInMilliseconds();
+                this.StartTime = Utils.GetNowUnixTimestamp();
                 this._elapsedTime = 0L;
             }
             return this;
@@ -71,7 +72,7 @@
         /// Reset's all timer's counters.
         /// </summary>
         /// <returns>Current timer.</returns>
-        public StopWatch Reset()
+        public virtual StopWatch Reset()
         {
             _elapsedTime = 0;
             LapTime = 0;
@@ -85,11 +86,11 @@
         /// Resumes paused timer and lap time. Does nothing if wasn't paused.
         /// </summary>
         /// <returns>Elapsed time at pause moment.</returns>
-        public void Resume()
+        public virtual void Resume()
         {
             if (State == StopWatchStatus.PAUSED)
             {
-                StartTime = LapStartTime = Utils.GetTimestampInMilliseconds();
+                StartTime = LapStartTime = Utils.GetNowUnixTimestamp();
                 State = StopWatchStatus.RUNNING;
             }
         }
@@ -98,11 +99,11 @@
         /// Pause whole timer including lap time. Does nothing if wasn't running.
         /// </summary>
         /// <returns>Elapsed time at pause moment.</returns>
-        public long Pause()
+        public virtual long Pause()
         {
             if (State == StopWatchStatus.RUNNING)
             {
-                long currentTimestamp = Utils.GetTimestampInMilliseconds();
+                long currentTimestamp = Utils.GetNowUnixTimestamp();
                 _elapsedTime += currentTimestamp - StartTime;
                 if (LapStartTime > 0)
                 {
@@ -117,9 +118,9 @@
         /// Starts new lap timer, main timer not affected.
         /// </summary>
         /// <returns>Last lap time. If no lap were measured - returns 0.</returns>
-        public long Lap()
+        public virtual long Lap()
         {
-            long currentMillis = Utils.GetTimestampInMilliseconds();
+            long currentMillis = Utils.GetNowUnixTimestamp();
 
             LapTime += LapStartTime > 0 ? currentMillis - LapStartTime : 0;
             long existedLap = LapTime;
@@ -134,7 +135,7 @@
         /// Stops timer, cannot be resumed\started after.
         /// </summary>
         /// <returns>Elapsed time</returns>
-        public long Stop()
+        public virtual long Stop()
         {
             if (State != StopWatchStatus.STOPPED)
             {

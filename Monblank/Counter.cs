@@ -28,9 +28,6 @@
         /** The last time this object was accessed */
         public long LastAccess { get; protected set; }
 
-        private readonly object _updateLock = new object();
-        private readonly object _resetLock = new object();
-
         public Counter(MonitorKey key)
         {
             Key = key;
@@ -47,15 +44,15 @@
 
         public Counter Update(double value)
         {
-            lock (_updateLock)
+            lock (this)
             {
                 Total += value;
                 Hits++;
                 if (value < Min) Min = value;
                 if (value > Max) Max = value;
                 SumOfSquares += value*value;
-                if (FirstAccess == 0) FirstAccess = Utils.GetTimestampInMilliseconds();
-                LastAccess = Utils.GetTimestampInMilliseconds();
+                if (FirstAccess == 0) FirstAccess = Utils.GetNowUnixTimestamp();
+                LastAccess = Utils.GetNowUnixTimestamp();
             }
 
             return this;
@@ -63,7 +60,7 @@
 
         public void Reset()
         {
-            lock (_resetLock)
+            lock (this)
             {
                 Total = 0.0;
                 Min = Double.MaxValue;
@@ -79,7 +76,7 @@
         {
             return
                 String.Format(
-                    "Counter{key={0}, total={1}, min={2}, max={3}, hits={4}, sumOfSquares={5}, firstAccess={6}, lastAccess={7}}",
+                    "Counter{{key={0}, total={1}, min={2}, max={3}, hits={4}, sumOfSquares={5}, firstAccess={6}, lastAccess={7}}}",
                     Key, Total, Min, Max, Hits, SumOfSquares, FirstAccess, LastAccess);
         }
     }

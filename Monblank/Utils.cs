@@ -1,14 +1,16 @@
 ﻿namespace Monblank
 {
+    #region using directives
+
     using System;
 
-    internal class Utils
-    {
-        public const long TicksPerMillisecond = 10000;
+    #endregion
 
-        public static long GetTimestampInMilliseconds()
+    public class Utils
+    {
+        public static long GetNowUnixTimestamp()
         {
-            return DateTime.UtcNow.Ticks/TicksPerMillisecond;
-        }   
+            return (long) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds;
+        }
     }
 }
