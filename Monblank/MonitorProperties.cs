@@ -9,7 +9,7 @@
 
     public class MonitorProperties
     {
-        private Dictionary<String, String> _properties = new Dictionary<String, String>();
+        private IDictionary<String, String> _properties = new Dictionary<string, string>();
 
         public static MonitorProperties Create()
         {
@@ -21,7 +21,7 @@
             return Create().Add(name, value);
         }
 
-        public static MonitorProperties Create(Dictionary<String, String> propertires)
+        public static MonitorProperties Create(IDictionary<String, String> propertires)
         {
             var monitorProperties = new MonitorProperties {_properties = new Dictionary<String, String>(propertires)};
 
@@ -35,7 +35,7 @@
             return this;
         }
 
-        public Dictionary<String, String> AsMap()
+        public IDictionary<String, String> AsDictionary()
         {
             return _properties;
         }

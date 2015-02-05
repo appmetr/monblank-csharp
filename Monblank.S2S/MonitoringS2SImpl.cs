@@ -17,7 +17,7 @@
 
         #region Implement IMonitoring
 
-        public StopWatch Start(string @group, string monitorName, Dictionary<string, string> properties)
+        public StopWatch Start(string @group, string monitorName, IDictionary<string, string> properties)
         {
             return Create(new MonitorKey(BuildMonitorName(group, monitorName, MonblankConst.Ms), properties)).Start();
         }
@@ -33,7 +33,7 @@
         }
 
         public void Add(string @group, string monitorName, string units, double value,
-            Dictionary<string, string> properties)
+            IDictionary<string, string> properties)
         {
             UpdateCounter(new MonitorKey(BuildMonitorName(group, monitorName, units), properties), value);
         }
@@ -48,7 +48,22 @@
             UpdateCounter(key, value);
         }
 
-        public void Inc(string @group, string monitorName, Dictionary<string, string> properties)
+        public void Set(string @group, string monitorName, string units, double value, IDictionary<string, string> properties)
+        {
+            SetCounter(new MonitorKey(BuildMonitorName(group, monitorName, units), properties), value);
+        }
+
+        public void Set(string @group, string monitorName, string units, double value)
+        {
+            SetCounter(new MonitorKey(BuildMonitorName(group, monitorName, units)), value);
+        }
+
+        public void Set(MonitorKey key, double value)
+        {
+            SetCounter(key, value);
+        }
+
+        public void Inc(string @group, string monitorName, IDictionary<string, string> properties)
         {
             UpdateCounter(new MonitorKey(BuildMonitorName(group, monitorName, MonblankConst.Count), properties), 1.0);
         }
@@ -88,6 +103,12 @@
         {
             Counter counter = GetOrCreateCounter(key);
             counter.Update(value);
+        }
+
+        private void SetCounter(MonitorKey key, double value)
+        {
+            Counter counter = GetOrCreateCounter(key);
+            counter.Set(value);
         }
 
         //Try to get counter without lock

@@ -44,8 +44,9 @@
   <ItemGroup>
     <Compile Include="Counter.cs" />
     <Compile Include="MonblankConst.cs" />
-    <Compile Include="Monitoring.cs" />
+    <Compile Include="IMonitoring.cs" />
     <Compile Include="MonitorKey.cs" />
+    <Compile Include="MonitorProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopWatch.cs" />
     <Compile Include="Utils.cs" />

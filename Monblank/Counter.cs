@@ -42,6 +42,22 @@
         {
         }
 
+        public Counter Set(double value)
+        {
+            lock (this)
+            {
+                Total = value;
+                Hits = 1;
+                if (value < Min) Min = value;
+                if (value > Max) Max = value;
+                SumOfSquares = value*value;
+                if (FirstAccess == 0) FirstAccess = Utils.GetNowUnixTimestamp();
+                LastAccess = Utils.GetNowUnixTimestamp();
+            }
+
+            return this;
+        }
+
         public Counter Update(double value)
         {
             lock (this)

@@ -10,7 +10,7 @@
     public class MonitorKey
     {
         public String Name { get; protected set; }
-        public Dictionary<String, String> Properties { get; protected set; }
+        public IDictionary<String, String> Properties { get; protected set; }
 
         private readonly int _precalcHash;
 
@@ -18,7 +18,7 @@
         {
         }
 
-        public MonitorKey(String name, Dictionary<String, String> properties)
+        public MonitorKey(String name, IDictionary<String, String> properties)
         {
             Name = name;
             Properties = properties ?? new Dictionary<String, String>();
