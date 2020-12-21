@@ -45,6 +45,7 @@
     <Compile Include="Counter.cs" />
     <Compile Include="MonblankConst.cs" />
     <Compile Include="IMonitoring.cs" />
+    <Compile Include="MonitoringStub.cs" />
     <Compile Include="MonitorKey.cs" />
     <Compile Include="MonitorProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

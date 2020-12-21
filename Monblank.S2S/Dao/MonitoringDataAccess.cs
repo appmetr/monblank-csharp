@@ -11,7 +11,7 @@
 
     public class MonitoringDataAccess
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof (MonitoringDataAccess));
+        private static readonly ILog Log = LogUtils.GetLogger(typeof (MonitoringDataAccess));
 
         private readonly AppMetr _appMetr;
         private readonly AppMetrTimer _flushTimer;
@@ -19,6 +19,7 @@
         private readonly MonitoringCounterService _monitoringCounterService;
 
         private readonly object _flushLock = new object();
+        private readonly Thread _flushThread;
 
         private const int MillisPerMinute = 1000*60;
 
@@ -32,7 +33,8 @@
                 MonblankConst.MonitorFlushIntervalMinutes*MillisPerMinute,
                 Execute,
                 "MonitorFlushJob");
-            new Thread(_flushTimer.Start).Start();
+            _flushThread = new Thread(_flushTimer.Start);
+            _flushThread.Start();
         }
 
         public void Execute()

@@ -12,7 +12,7 @@
 
     public class MonitoringCounterService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(MonitoringDataAccess));
+        private static readonly ILog Log = LogUtils.GetLogger(typeof(MonitoringDataAccess));
 
         private readonly AppMetr _appMetr;
 
