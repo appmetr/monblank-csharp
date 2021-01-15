@@ -1,4 +1,6 @@
-﻿namespace Monblank.S2S.Dao
+﻿using Common.Logging;
+
+namespace Monblank.S2S.Dao
 {
     #region using directives
 
@@ -6,7 +8,6 @@
     using System.Collections.Generic;
     using AppmetrS2S;
     using AppmetrS2S.Actions;
-    using log4net;
 
     #endregion
 
